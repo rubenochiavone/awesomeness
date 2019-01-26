@@ -1,0 +1,28 @@
+{
+  "health_percentage": 83,
+  "description": ":sunglasses: Curated list of awesome lists",
+  "documentation": "http://awesome.re/",
+  "files": {
+    "code_of_conduct": {
+      "name": "Contributor Covenant",
+      "key": "contributor_covenant",
+      "url": "https://api.github.com/codes_of_conduct/contributor_covenant",
+      "html_url": "https://github.com/sindresorhus/awesome/blob/master/code-of-conduct.md"
+    },
+    "contributing": {
+      "url": "https://api.github.com/repos/sindresorhus/awesome/contents/contributing.md",
+      "html_url": "https://github.com/sindresorhus/awesome/blob/master/contributing.md"
+    },
+    "issue_template": null,
+    "pull_request_template": {
+      "url": "https://api.github.com/repos/sindresorhus/awesome/contents/pull_request_template.md",
+      "html_url": "https://github.com/sindresorhus/awesome/blob/master/pull_request_template.md"
+    },
+    "license": null,
+    "readme": {
+      "url": "https://api.github.com/repos/sindresorhus/awesome/contents/readme.md",
+      "html_url": "https://github.com/sindresorhus/awesome/blob/master/readme.md"
+    }
+  },
+  "updated_at": "2018-05-17T21:42:34Z"
+}

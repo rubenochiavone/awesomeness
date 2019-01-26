@@ -2,12 +2,6 @@
 
   <ion-navbar>
     <ion-title>{{ 'LIST_MASTER_TITLE' | translate }}</ion-title>
-
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addItem()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -15,21 +9,29 @@
 <ion-content>
 
   <ion-list>
-    <ion-item-sliding *ngFor="let item of currentItems">
-      <button ion-item (click)="openItem(item)">
-        <ion-avatar item-start>
-          <img [src]="item.profilePic" />
-        </ion-avatar>
-        <h2>{{item.name}}</h2>
-        <p>{{item.about}}</p>
-        <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
-      </button>
-
-      <ion-item-options>
-        <button ion-button color="danger" (click)="deleteItem(item)">
-          {{ 'DELETE_BUTTON' | translate }}
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
+    <button ion-item (click)="openItem(item)" *ngFor="let item of currentItems">
+      <ion-label text-wrap>
+        <span color="primary">
+          <h2>{{item.owner.login}} / {{item.name}}</h2>
+        </span>
+        <div class="github-popularity">
+          <ion-icon name="star"></ion-icon> {{item.stargazers_count | unitySuffix }}
+          <ion-icon name="git-network"></ion-icon> {{item.forks | unitySuffix }}
+        </div>
+        <p [innerHtml]="parseItemDescription(item) | safe: 'html'"></p>
+        <span color="secondary">
+          <ion-chip *ngFor="let topic of item.topics | slice:0:6">
+            <ion-label>{{topic}}</ion-label>
+          </ion-chip>
+        </span>
+      </ion-label>
+    </button>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="{{ 'LOADING_MORE_DATA' | translate }}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /**
@@ -6,15 +6,16 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class Api {
-  url: string = 'https://example.com/api/v1';
+  url: string = 'https://api.github.com';
 
   constructor(public http: HttpClient) {
   }
 
-  get(endpoint: string, params?: any, reqOpts?: any) {
+  get(endpoint: string, params?: any, headers?: any, reqOpts?: any) {
     if (!reqOpts) {
       reqOpts = {
-        params: new HttpParams()
+        params: new HttpParams(),
+        headers: new HttpHeaders()
       };
     }
 
@@ -23,6 +24,13 @@ export class Api {
       reqOpts.params = new HttpParams();
       for (let k in params) {
         reqOpts.params = reqOpts.params.set(k, params[k]);
+      }
+    }
+
+    if (headers) {
+      reqOpts.headers = new HttpHeaders();
+      for (let k in headers) {
+        reqOpts.headers = reqOpts.headers.set(k, headers[k]);
       }
     }
 

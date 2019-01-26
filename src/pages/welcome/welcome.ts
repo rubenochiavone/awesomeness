@@ -14,13 +14,12 @@ import { IonicPage, NavController } from 'ionic-angular';
 })
 export class WelcomePage {
 
-  constructor(public navCtrl: NavController) { }
+  constructor(public navCtrl: NavController) {}
 
-  login() {
-    this.navCtrl.push('LoginPage');
-  }
-
-  signup() {
-    this.navCtrl.push('SignupPage');
+  goAwesome() {
+    this.navCtrl.setRoot('TabsPage', {}, {
+      animate: true,
+      direction: 'forward'
+    });
   }
 }

@@ -4,6 +4,8 @@ import { IonicPage, ModalController, NavController } from 'ionic-angular';
 import { Item } from '../../models/item';
 import { Items } from '../../providers';
 
+import { load, parse } from 'gh-emoji';
+
 @IonicPage()
 @Component({
   selector: 'page-list-master',
@@ -11,36 +13,49 @@ import { Items } from '../../providers';
 })
 export class ListMasterPage {
   currentItems: Item[];
+  page: number;
+  emojiParserLoaded: boolean;
 
   constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
-    this.currentItems = this.items.query();
+    this.emojiParserLoaded = false;
+    load().then(() => this.emojiParserLoaded = true);
   }
 
   /**
    * The view loaded, let's query our items for the list
    */
   ionViewDidLoad() {
+    this.items.query()
+      .subscribe((data: any) => {
+        this.currentItems = data["items"];
+        this.page = 1;
+      });
   }
 
-  /**
-   * Prompt the user to add a new item. This shows our ItemCreatePage in a
-   * modal and then adds the new item to our data source if the user created one.
-   */
-  addItem() {
-    let addModal = this.modalCtrl.create('ItemCreatePage');
-    addModal.onDidDismiss(item => {
-      if (item) {
-        this.items.add(item);
-      }
-    })
-    addModal.present();
+  parseItemDescription(item: Item) {
+    if (!item || !item.description) {
+      return null;
+    }
+    
+    if (!this.emojiParserLoaded) {
+      return item.description;
+    }
+
+    return parse(item.description);
   }
 
-  /**
-   * Delete an item from the list of items.
-   */
-  deleteItem(item) {
-    this.items.delete(item);
+  loadData(event) {
+    this.page++;
+    this.items.next(this.page)
+      .subscribe((data: any) => {
+        event.complete();
+
+        if (!data["items"] || data["items"].length == 0) {
+          event.enabled = false;
+        } else {
+          this.currentItems = this.currentItems.concat(data["items"]);
+        }
+      });
   }
 
   /**

@@ -1,21 +1,46 @@
 import { Injectable } from '@angular/core';
 
-import { Item } from '../../models/item';
 import { Api } from '../api/api';
 
 @Injectable()
 export class Items {
-
   constructor(public api: Api) { }
 
+  defaultItem: any = {
+    "name": "notfound",
+    "full_name": "project/notfound",
+    "owner": {
+      "login": "project"
+    },
+    "html_url": "https://github.com/"
+  };
+
   query(params?: any) {
-    return this.api.get('/items', params);
+    let query = '+topic:awesome+topic:awesome-list';
+
+    if (params && params.name) {
+      query = params.name + query;
+    }
+    
+    return this.api.get('search/repositories', {
+        q: query
+      }, {
+        'Accept': 'application/vnd.github.mercy-preview+json'
+      });
   }
 
-  add(item: Item) {
-  }
+  next(page: number, params?: any) {
+    let query = '+topic:awesome+topic:awesome-list';
 
-  delete(item: Item) {
+    if (params && params.name) {
+      query = params.name + query;
+    }
+    
+    return this.api.get('search/repositories', {
+        q: query,
+        page: page
+      }, {
+        'Accept': 'application/vnd.github.mercy-preview+json'
+      });
   }
-
 }
