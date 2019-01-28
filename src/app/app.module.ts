@@ -52,7 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     { provide: LocationStrategy, useClass: PathLocationStrategy },
-    { provide: APP_BASE_HREF, useValue : '/' }
+    { provide: APP_BASE_HREF, useValue : '/awesomeness' }
   ]
 })
 export class AppModule { }
