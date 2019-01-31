@@ -31,9 +31,11 @@ export class ItemDetailPage {
       html = html.replace(/<a(.*?)href="(.*?)"/g, function(match: string, $1: string, $2: string) {
         let href: string = $2;
         let target = '_self';
+        let goToDivFunction = '';
 
         if (href.startsWith('#')) {
-          href = window.location.href + href;
+          goToDivFunction = ` onclick="document.getElementById('${href.substring(1)}').scrollIntoView();"`;
+          href = `${window.location.href}#`;
         } else if (urlPattern.test(href)) {
           target = '_blank';
         } else {
@@ -42,7 +44,7 @@ export class ItemDetailPage {
           target = '_blank';
         }
 
-        return `<a${$1}href="${href}" target="${target}"`;
+        return `<a${$1}href="${href}" target="${target}"${goToDivFunction}`;
       });
 
       html = html.replace(/<img(.*?)src="(.*?)"/g, function(match: string, $1: string, $2: string) {
@@ -60,9 +62,11 @@ export class ItemDetailPage {
     }
     awesomeRenderer.link = function(href: string, title: string, text: string) {
       let hasTargetBlank : boolean = false;
+      let goToDivFunction = '';
 
       if (href.startsWith('#')) {
-        href = window.location.href + href;
+        goToDivFunction = ` onclick="document.getElementById('${href.substring(1)}').scrollIntoView();"`;
+        href = `${window.location.href}#`;
       } else if (urlPattern.test(href)) {
         hasTargetBlank = true;
       } else {
@@ -74,10 +78,10 @@ export class ItemDetailPage {
       let link = marked.Renderer.prototype.link.call(this, href, title, text);
 
       if (!hasTargetBlank) {
-        return link;
+        return link.replace('<a', `<a ${goToDivFunction}`);
       }
 
-      return link.replace('<a', '<a target="_blank"');
+      return link.replace('<a', `<a target="_blank"${goToDivFunction}`);
     }
     awesomeRenderer.image = function(href: string, title: string, text: string) {
       if (!urlPattern.test(href)) {

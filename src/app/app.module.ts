@@ -1,4 +1,4 @@
-import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -51,8 +51,7 @@ export function createTranslateLoader(http: HttpClient) {
     StatusBar,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: LocationStrategy, useClass: PathLocationStrategy },
-    { provide: APP_BASE_HREF, useValue : '/awesomeness' }
+    { provide: APP_BASE_HREF, useValue : '/' }
   ]
 })
 export class AppModule { }
