@@ -33,7 +33,7 @@ To generate an android release do
 ```bash
 $ ionic cordova build android --prod --release
 $ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keys/awesome-release-key.keystore ./platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk awesomeness
-$ zipalign -v 4 .platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk app-release.apk
+$ zipalign -v 4 ./platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk app-release.apk
 ```
 
 Keystore password is `awesomeness`.
