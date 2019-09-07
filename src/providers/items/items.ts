@@ -23,7 +23,9 @@ export class Items {
     }
     
     return this.api.get('search/repositories', {
-        q: query
+        q: query,
+        sort: 'stars',
+        order: 'desc'
       }, {
         'Accept': 'application/vnd.github.mercy-preview+json'
       });
@@ -38,7 +40,9 @@ export class Items {
     
     return this.api.get('search/repositories', {
         q: query,
-        page: page
+        page: page,
+        sort: 'stars',
+        order: 'desc'
       }, {
         'Accept': 'application/vnd.github.mercy-preview+json'
       });

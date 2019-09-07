@@ -33,7 +33,6 @@ export class SearchPage {
     }
 
     this.query = val;
-
     this.items.query({
       name: this.query
     }).subscribe((data: any) => {
